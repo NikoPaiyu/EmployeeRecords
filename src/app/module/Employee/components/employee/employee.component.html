@@ -61,7 +61,12 @@
             <label for="email" class="form-label">Email Id</label>
             <input type="email" formControlName="emailId"  id="email" class="form-control">
             <div *ngIf="emailId?.invalid && (emailId?.dirty || emailId?.touched)">
-              <ng-container  *ngTemplateOutlet="required; context: {property: emailId,name: 'Email Id'}"></ng-container>
+              <ng-container *ngTemplateOutlet="required; context: {property: emailId,name: 'Email Id'}"></ng-container>
+
+              <div *ngIf="emailId?.errors?.email" class="alert alert-danger mt-2">
+                Email must be a valid
+              </div>
+
             </div>
           </div>
         </div>
@@ -138,9 +143,7 @@
 
 <!-- Name is Required -->
 <ng-template #required let-property="property" let-name="name" >
-  <div *ngIf="property?.invalid && (property?.dirty)" class="alert alert-danger mt-2">
-    <div *ngIf="property?.errors?.required">
+  <div *ngIf="property?.invalid && (property?.dirty) && property?.errors?.required" class="alert alert-danger mt-2">
       {{name}} is required.
-    </div>
   </div>
 </ng-template>

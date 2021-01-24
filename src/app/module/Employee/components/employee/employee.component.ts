@@ -23,6 +23,7 @@ import {
 import {
   NgbAlert
 } from '@ng-bootstrap/ng-bootstrap';
+import { CalculateRandomNumber } from 'src/app/shared/functions/calculateRandomId.function';
 
 
 @Component({
@@ -73,17 +74,25 @@ export class EmployeeComponent implements OnInit {
   addEmployee() {
 
     // Create Employee
-    let employee = new Employee(Math.floor(Math.random() * 100) + 1, 'Nikhil Radhakrishnan', 'nikhilpops@gmail.com', 'Senior Project Engineer', 27);
+    let employee = this.createNewEmployee('Nikhil Radhakrishnan','nikhilpops@outlook','Senior Project Engineer',27);
 
     // Create the Icons
-    employee.TableAction!.iconList.push(this.generateIcons('Edit', 'fa fa-user-edit'));
-    employee.TableAction!.iconList.push(this.generateIcons('Delete', 'fa fa-trash')); // <i class="fas fa-trash"></i>
+    employee.TableAction?.iconList.push(this.generateIcons('Edit', 'fa fa-user-edit'));
+    employee.TableAction?.iconList.push(this.generateIcons('Delete', 'fa fa-trash')); // <i class="fas fa-trash"></i>
 
     // Push the Employee Obj
     this.employeeList.push(employee);
 
   }
 
+
+  /*
+  Create new Employee
+  Randomly generating a id
+  */
+  createNewEmployee(name: string,emailId: string,designation: string,age: number){
+   return new Employee(CalculateRandomNumber(), name, emailId, designation, age);
+  }
 
 
   /*
@@ -145,7 +154,7 @@ export class EmployeeComponent implements OnInit {
     this.employeeEditForm = this.fb.group({
       id: [employee.id],
       name: [employee.name, Validators.required],
-      emailId: [employee.emailId, Validators.required],
+      emailId: [employee.emailId, [Validators.required,Validators.email]],
       designation: [employee.designation, Validators.required],
       age: [employee.age, Validators.required]
     });
@@ -246,21 +255,9 @@ export class EmployeeComponent implements OnInit {
   }
 
 
-
-
   /*
-  Utility
-  Method
-  needs to be moved to different class
+  To Show alert
   */
-  findRecordIndexById(id: number) {
-    return this.employeeList.findIndex(employee => employee.id === id);
-  }
-
-  findRecordById(id: number) {
-    return this.employeeList.find(employee => employee.id === id);
-  }
-
   showAlert(type: string, message: string) {
 
     // Configure Alert
@@ -272,9 +269,28 @@ export class EmployeeComponent implements OnInit {
 
   }
 
+  /*
+  To Close Alert
+  */
   closeAlert() {
     this.isAlert = false;
   }
+
+  /*
+  Utility
+  Method
+  needs to be moved to different class
+  */
+
+  findRecordIndexById(id: number) {
+    return this.employeeList.findIndex(employee => employee.id === id);
+  }
+
+  findRecordById(id: number) {
+    return this.employeeList.find(employee => employee.id === id);
+  }
+
+
 
 
 }
