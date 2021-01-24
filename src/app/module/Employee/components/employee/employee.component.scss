@@ -1,0 +1,43 @@
+.content_wrapper{
+
+  .content_action {
+    margin-bottom: 10px;
+  }
+}
+
+
+.delete_wrapper {
+
+  .delete_text {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+
+    span {
+      font-weight: 500;
+    }
+
+  }
+
+
+  .delete_data {
+    .delete_data_list {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      margin-bottom: 0px;
+
+      .delete_data_list_item {
+        margin-right: 30px;
+
+        label {
+          display: block;
+          margin-bottom: 0px;
+        }
+      }
+    }
+  }
+
+}
+
+

@@ -1,0 +1,26 @@
+.table th, .table td {
+  border-top: 0px !important;
+}
+
+.table_action {
+  .table_action_list{
+    display: flex;
+    justify-content: flex-start;
+
+    .table_action_list_item {
+      margin-right: 10px;
+      cursor: pointer;
+
+      i {
+        font-size: 14px;
+        color: #999;
+
+        &:hover {
+          color: #333;
+        }
+      }
+
+    }
+
+  }
+}

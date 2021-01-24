@@ -1,0 +1,25 @@
+<table class="table">
+
+  <thead>
+    <tr>
+      <th *ngFor="let column of tableColumnList">{{column}}</th>
+      <th *ngIf="isAction">Action</th>
+    </tr>
+  </thead>
+
+<tbody>
+    <tr *ngFor="let value of tableValueList">
+      <td *ngFor="let property of tablePropertyValueList">{{value[property]}}</td>
+      <td *ngIf="isAction">
+        <div class="table_action">
+            <ul class="table_action_list">
+              <li *ngFor="let icon of value.TableAction.iconList" class="table_action_list_item">
+                  <i class="{{icon.iconClassName}}" title=" {{icon.iconName}} Record" (click)="emitAction(value,icon.iconName)"></i>
+              </li>
+            </ul>
+        </div>
+      </td>
+    </tr>
+</tbody>
+
+</table>

@@ -1,0 +1,146 @@
+<div class="wrapper">
+  <div class="container">
+
+    <div class="header_wrapper">
+      <app-header></app-header>
+    </div>
+
+    <div class="content_wrapper">
+
+      <div class="content_alert" *ngIf="isAlert">
+        <ngb-alert [type]="alertType" (closed)="closeAlert()">{{alertMessage}}</ngb-alert>
+      </div>
+
+      <div class="content_action">
+        <button type="button" (click)="addEmployee()" class="btn btn-primary">Add New Record</button>
+      </div>
+
+      <div class="content_table">
+        <app-card>
+
+          <div class="card-body-content">
+            <app-table [tableColumnList]="employeeColumnList" [tablePropertyValueList]="employeeValueProperty"
+              [tableValueList]="employeeList" (iconAction)="getEmittedAction($event)" [isAction]="true"></app-table>
+          </div>
+
+        </app-card>
+
+      </div>
+
+
+    </div>
+
+  </div>
+</div>
+
+
+
+<!-- Modal For Edit -->
+<app-modal #editRecordModal [modalTitle]="'Edit Record'">
+
+  <div class="modal-body-wrapper">
+
+    <form [formGroup]="employeeEditForm" *ngIf="employeeEditForm">
+
+      <div class="row">
+
+        <div class="col-12">
+          <div class="form-group">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" formControlName="name" id="name"  class="form-control">
+            <div *ngIf="name?.invalid && (name?.dirty || name?.touched)">
+              <ng-container  *ngTemplateOutlet="required; context: {property: name,name: 'Name'}"></ng-container>
+            </div>
+          </div>
+        </div>
+
+
+
+        <div class="col-6">
+          <div class="form-group">
+            <label for="email" class="form-label">Email Id</label>
+            <input type="email" formControlName="emailId"  id="email" class="form-control">
+            <div *ngIf="emailId?.invalid && (emailId?.dirty || emailId?.touched)">
+              <ng-container  *ngTemplateOutlet="required; context: {property: emailId,name: 'Email Id'}"></ng-container>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="form-group">
+            <label for="designation" class="form-label">Designation</label>
+            <input type="text" formControlName="designation" id="designation" class="form-control">
+            <div *ngIf="designation?.invalid && (designation?.dirty || designation?.touched)">
+              <ng-container  *ngTemplateOutlet="required; context: {property: designation,name: 'Designation'}"></ng-container>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-3">
+          <div class="form-group">
+            <label for="age" class="form-label">Age</label>
+            <input type="number" formControlName="age" id="age"  class="form-control">
+            <div *ngIf="age?.invalid && (age?.dirty || age?.touched)">
+              <ng-container  *ngTemplateOutlet="required; context: {property: age,name: 'Age'}"></ng-container>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </form>
+
+  </div>
+
+  <div class="modal-footer-wrapper">
+    <button type="button" class="btn btn-outline-secondary mr-2" (click)="cancelModal(editRecordModal)">Cancel</button>
+    <button type="button" class="btn btn-success" [disabled]="employeeEditForm?.invalid" (click)="updateEmployeeRecord()">Update</button>
+  </div>
+
+</app-modal>
+
+
+<!-- Modal For Delete -->
+<app-modal #deleteRecordModal [modalTitle]="'Delete Record'">
+
+  <div class="modal-body-wrapper">
+
+    <div class="delete_wrapper">
+
+      <div class="delete_text">
+        <span>Are you sure you want to delete this
+          <br>record ?</span>
+      </div>
+
+      <div class="delete_data">
+        <ul class="delete_data_list">
+          <li class="delete_data_list_item">
+            <label class="text-secondary">Name</label>
+            <span class="text-dark">{{employeeEditForm?.get('name')?.value}}</span>
+          </li>
+          <li class="delete_data_list_item">
+            <label class="text-secondary">Designation</label>
+            <span class="text-dark">{{employeeEditForm?.get('designation')?.value}}</span>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="modal-footer-wrapper">
+    <button type="button" class="btn btn-outline-secondary mr-2" (click)="cancelModal(editRecordModal)">Cancel</button>
+    <button type="button" class="btn btn-danger" (click)="removeEmployeeRecord()">Delete</button>
+  </div>
+
+</app-modal>
+
+<!-- Name is Required -->
+<ng-template #required let-property="property" let-name="name" >
+  <div *ngIf="property?.invalid && (property?.dirty)" class="alert alert-danger mt-2">
+    <div *ngIf="property?.errors?.required">
+      {{name}} is required.
+    </div>
+  </div>
+</ng-template>
